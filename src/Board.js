@@ -79,12 +79,32 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // TODO: Can we make this work independent of board
+      var row = this.get(rowIndex);
+
+      var rowPieces = _.reduce(row, function(accumulator, value){
+        accumulator = accumulator + value;
+        return accumulator;
+      });
+
+      //if conflict return true
+      if(rowPieces > 1 ){
+        return true;
+      } else {
+        return false;
+      }
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var numRows = this.rows().length;
+      for( var i=0; i<numRows; i++ ) {
+        if( this.hasRowConflictAt(i) ) {
+          return true;
+        }
+      }
+
+      return false;
     },
 
 
@@ -94,11 +114,36 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      var colArray = [];
+      var rows = this.rows();
+      // For each row, push element at colIndex to colArray
+      for ( var i=0;i<rows.length; i++ ) {
+        colArray.push(rows[i][colIndex]);
+      }
+
+      var colPieces = _.reduce(colArray, function(accumulator, value) {
+        accumulator = accumulator + value;
+        return accumulator
+      });
+
+      // If colArray contains more than one 1
+      if (colPieces > 1) {
+        // return true
+        return true;
+      }
+
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      var numCols = this.rows().length;
+      for ( var i=0; i<numCols; i++) {
+        if ( this.hasColConflictAt(i) ) {
+          return true;
+        }
+      }
+
       return false; // fixme
     },
 
@@ -109,12 +154,51 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      //declare diagonalValues = [];
+      var majDiagonalArray = [];
+      var rows = this.rows();
+      var rowPos = 0;
+      var colPos = majorDiagonalColumnIndexAtFirstRow;
+
+      for ( var i=0; i<rows.length; i++) {
+        if (this._isInBounds(rowPos, colPos)) {
+          // push value at row/col position
+          majDiagonalArray.push(this.get(rowPos)[colPos]);
+
+          // Add 1 to rowPos & 1 to colPos
+          rowPos++;
+          colPos++;
+        }
+      }
+      //check if start index value is in bounds
+      //check down 1 over 1 and see if in bounds
+        //if in bounds, push value at location into diagonalValues
+
+      var majDiagonalPieces = _.reduce(majDiagonalArray, function(accumulator, value) {
+        accumulator = accumulator + value;
+        return accumulator;
+      }, 0);
+
+      if (majDiagonalPieces > 1) {
+        return true;
+      }
+      //run reduce
+        //if accumulator is over 1
+          //return true for conflict
+        //otherwise return false
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      //return false; // fixme
+      for (var i = -3; i <= 3; i++) {
+        if ( this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+
+      return false;
     },
 
 
@@ -124,12 +208,51 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+      //declare diagonalValues = [];
+      var minDiagonalArray = [];
+      var rows = this.rows();
+      var rowPos = 0;
+      var colPos = minorDiagonalColumnIndexAtFirstRow;
+
+      for ( var i=0; i<rows.length; i++) {
+        if (this._isInBounds(rowPos, colPos)) {
+          // push value at row/col position
+          minDiagonalArray.push(this.get(rowPos)[colPos]);
+
+          // Add 1 to rowPos & 1 to colPos
+          rowPos++;
+          colPos--;
+        }
+      }
+      //check if start index value is in bounds
+      //check down 1 over 1 and see if in bounds
+      //if in bounds, push value at location into diagonalValues
+
+      var minDiagonalPieces = _.reduce(minDiagonalArray, function(accumulator, value) {
+        accumulator = accumulator + value;
+        return accumulator;
+      }, 0);
+
+      if (minDiagonalPieces > 1) {
+        return true;
+      }
+      //run reduce
+      //if accumulator is over 1
+      //return true for conflict
+      //otherwise return false
       return false; // fixme
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      for (var i = 0; i <= 6; i++) {
+        if ( this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+
+      return false;
+      //return false; // fixme
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
