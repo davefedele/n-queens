@@ -164,11 +164,10 @@
         if (this._isInBounds(rowPos, colPos)) {
           // push value at row/col position
           majDiagonalArray.push(this.get(rowPos)[colPos]);
-
-          // Add 1 to rowPos & 1 to colPos
-          rowPos++;
-          colPos++;
         }
+        // Add 1 to rowPos & 1 to colPos
+        rowPos++;
+        colPos++;
       }
       //check if start index value is in bounds
       //check down 1 over 1 and see if in bounds
@@ -218,11 +217,10 @@
         if (this._isInBounds(rowPos, colPos)) {
           // push value at row/col position
           minDiagonalArray.push(this.get(rowPos)[colPos]);
-
-          // Add 1 to rowPos & 1 to colPos
-          rowPos++;
-          colPos--;
         }
+        // Add 1 to rowPos & 1 to colPos
+        rowPos++;
+        colPos--;
       }
       //check if start index value is in bounds
       //check down 1 over 1 and see if in bounds
